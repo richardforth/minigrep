@@ -1,15 +1,25 @@
 version: 3
 
 tasks:
-  minigrep-cli-tests:
+  cli:
     desc: "Save excessive wear-and-tear on the up arrow!"
     dir: /vagrant/git/minigrep
     cmds:
       - cmd: cargo run
         ignore_error: true
+      - cmd: cargo run -- body sample-poem.txt
+        ignore_error: true
       - cmd: cargo run -- body sample-poem-not-there.txt
         ignore_error: true
-      - cargo run -- body sample-poem.txt
+      - cmd: cargo run -- monomorphization sample-poem.txt
+        ignore_error: true
     silent: true
     
 
+  test:
+    desc: "Save excessive wear-and-tear on the up arrow!"
+    dir: /vagrant/git/minigrep
+    cmds:
+      - cmd: cargo test
+        ignore_error: true
+    silent: true
