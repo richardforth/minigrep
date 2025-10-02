@@ -5,7 +5,10 @@ use std::error::Error;
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
-    //println!("With text:\n{contents}");
+    for line in search(&config.query, &contents) {
+        println!("{line}");
+    }
+
     Ok(())
 }
 
@@ -30,6 +33,24 @@ impl Config {
         Ok(Config { query, file_path })
     }
 }
+
+// Data referenced by a slice needs to be valid, using lifetimes to ensure this 
+pub fn search<'a>(
+    query: &str,
+    contents: &'a str,
+) -> Vec<&'a str> {
+    let mut results = Vec::new();
+ 
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    } 
+
+    // return the results
+    results
+}
+
 
 // 2025-10-01 Add a Failing test (Starting with TDD)
 #[cfg(test)]
