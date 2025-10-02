@@ -5,15 +5,18 @@ tasks:
     desc: "Save excessive wear-and-tear on the up arrow!"
     dir: /vagrant/git/minigrep
     cmds:
-      - cmd: cargo run
+      - cmd: CARGO_INCREMENTAL=0 cargo run -q
         ignore_error: true
-      - cmd: cargo run -- body sample-poem.txt
+      - cmd: CARGO_INCREMENTAL=0 cargo run -q -- body sample-poem.txt
         ignore_error: true
-      - cmd: cargo run -- body sample-poem-not-there.txt
+      - cmd: CARGO_INCREMENTAL=0 cargo run -q  -- body sample-poem-not-there.txt
         ignore_error: true
-      - cmd: cargo run -- monomorphization sample-poem.txt
+      - cmd: CARGO_INCREMENTAL=0 cargo run -q -- monomorphization sample-poem.txt
         ignore_error: true
-    silent: true
+      - cmd: CARGO_INCREMENTAL=0 cargo run -q -- to sample-poem.txt
+        ignore_error: true
+      - cmd: CARGO_INCREMENTAL=0 IGNORE_CASE=1 cargo run -q -- to sample-poem.txt
+        ignore_error: true
     
 
   test:
