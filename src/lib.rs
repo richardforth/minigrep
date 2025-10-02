@@ -51,6 +51,23 @@ pub fn search<'a>(
     results
 }
 
+pub fn search_case_insensitive<'a>(
+    query: &str,
+    contents: &'a str,
+) -> Vec<&'a str> {
+    // first set everything to lowercase so we can compare apples with apples
+    let query = query.to_lowercase();
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            results.push(line);
+        }
+    } 
+
+    // return the results
+    results
+}
 
 // 2025-10-01 Add a Failing test (Starting with TDD)
 #[cfg(test)]
@@ -73,7 +90,7 @@ Duct tape.";
     }
 
     #[test]
-    fn case_sensitive() {
+    fn case_insensitive() {
         let query = "RuSt";
         let contents = "\
 Rust:
@@ -82,8 +99,8 @@ Pick three.
 Trust me.";
 
         assert_eq!(
-            vec!["Rust", "Trust me.."],
-            search(query, contents)
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
         );
     }
 }
